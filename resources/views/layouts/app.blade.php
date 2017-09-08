@@ -60,7 +60,7 @@
 		<script src="{!! asset('questionnaire/js/main.js') !!}"></script>
 		<script type="text/javascript">	
 		   $(document).ready(function () {
-			$('#datetimepicker1').datetimepicker({
+				$('#datetimepicker1').datetimepicker({
 					format: 'YYYY/MM/DD', 
 					allowInputToggle: true
 				});

@@ -18,7 +18,7 @@
                         <p>Have you completed any of the following relating to your future planning?</p>
                     </div>    
 					
-					{!! Form::open(['url' => '/home/addStep7', 'enctype' => 'multipart/form-data', 'class' => 'style-form', 'role' => 'form', 'method' => 'POST'] ) !!}
+					{!! Form::open(['url' => '/home/addStep7', 'enctype' => 'multipart/form-data', 'class' => 'style-form', 'role' => 'form', 'method' => 'POST', 'id' => 'addStep7'] ) !!}
 					
 						{{ csrf_field() }}
 						
@@ -56,7 +56,7 @@
 								 <!--<button class="btn" type="button">Back</button>
 								<button class="btn btn-primary" type="button">Continue</button>-->
 								<a href="{{ url('/home/step6') }}" class="btn">Back</a>
-								{!! Form::button('Continue', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
+								{!! Form::button('Continue', ['type' => 'button', 'class' => 'btn btn-primary', 'onClick' => 'seventhSteps();']) !!}
 							</div>
 						</div>
 					{!! Form::close() !!}
@@ -65,3 +65,33 @@
         </div>
     </div>
 @endsection
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+	function seventhSteps(){
+		var valid;	
+		valid = validateForm();
+		if(valid) {
+			$('form#addStep7').submit();
+		}
+	}
+	
+	function validateForm(){
+		var valid 			= true;	
+		var future_planning 	= $('#future_planning').val();
+		
+		var inputVal = new Array(future_planning);
+		
+		if(inputVal[0] == ""){
+			$("button[data-id='future_planning']").css('border', '1px solid #A94442');
+			$("button[data-id='future_planning']").parent().css('color', '#A94442');
+			valid = false;
+		}else{
+			$("button[data-id='future_planning']").css('border', '1px solid green');
+			$("button[data-id='future_planning']").parent().css('color', 'green');
+		}
+		
+		return valid;
+	}
+</script>

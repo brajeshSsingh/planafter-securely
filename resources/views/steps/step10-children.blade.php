@@ -18,7 +18,7 @@
                     	<p>Do you have a spouse or life partner?</p>
                     </div>
 					
-					{!! Form::open(['url' => '/home/addStep10', 'enctype' => 'multipart/form-data', 'class' => 'style-form', 'role' => 'form', 'method' => 'POST'] ) !!}
+					{!! Form::open(['url' => '/home/addStep10', 'enctype' => 'multipart/form-data', 'class' => 'style-form', 'role' => 'form', 'method' => 'POST', 'id' => 'addStep10'] ) !!}
 					
 						{{ csrf_field() }}
 						
@@ -87,7 +87,7 @@
 								 <!--<button class="btn" type="button">Back</button>
 								<button class="btn btn-primary" type="button">Continue</button>-->
 								<a href="{{ url('/home/step9') }}" class="btn">Back</a>
-								{!! Form::button('Continue', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
+								{!! Form::button('Continue', ['type' => 'button', 'class' => 'btn btn-primary', 'onClick' => 'tenSteps();']) !!}
 							</div>
 						</div>
 					{!! Form::close() !!}
@@ -96,3 +96,51 @@
         </div>
     </div>
 @endsection
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+	function tenSteps(){
+		var valid;	
+		valid = validateForm();
+		if(valid) {
+			$('form#addStep10').submit();
+		}
+	}
+	
+	function validateForm(){
+		var valid 					= true;	
+		var children 				= $('#children').val();
+		var children_years_old1 	= $('#children_years_old1').val();
+		var children_years_old2 	= $('#children_years_old2').val();
+		
+		var inputVal = new Array(children, children_years_old1, children_years_old2);
+		
+		if(inputVal[0] == "" || inputVal[0] == 0){
+			$("#children").css('border', '1px solid #A94442');
+			$("#children").parent().css('color', '#A94442');
+			valid = false;
+		}else{
+			$("#children").css('border', '1px solid green');
+			$("#children").parent().css('color', 'green');
+		}
+		if(inputVal[1] == "" || inputVal[1] == 0){
+			$("#children_years_old1").css('border', '1px solid #A94442');
+			$("#children_years_old1").parent().css('color', '#A94442');
+			valid = false;
+		}else{
+			$("#children_years_old1").css('border', '1px solid green');
+			$("#children_years_old1").parent().css('color', 'green');
+		}
+		if(inputVal[2] == "" || inputVal[2] == 0){
+			$("#children_years_old2").css('border', '1px solid #A94442');
+			$("#children_years_old2").parent().css('color', '#A94442');
+			valid = false;
+		}else{
+			$("#children_years_old2").css('border', '1px solid green');
+			$("#children_years_old2").parent().css('color', 'green');
+		}
+		
+		return valid;
+	}
+</script>

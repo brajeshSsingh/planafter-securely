@@ -18,7 +18,7 @@
                         <p>Have you completed any of the following relating to your health care planning?</p>
                     </div>
 					
-					{!! Form::open(['url' => '/home/addStep4', 'enctype' => 'multipart/form-data', 'class' => 'style-form', 'role' => 'form', 'method' => 'POST'] ) !!}
+					{!! Form::open(['url' => '/home/addStep4', 'enctype' => 'multipart/form-data', 'class' => 'style-form', 'role' => 'form', 'method' => 'POST', 'id' => 'addStep4'] ) !!}
 					
 						{{ csrf_field() }}
 						
@@ -53,7 +53,7 @@
 								<!--<button class="btn" type="button">Back</button>
 								<button class="btn btn-primary" type="button">Continue</button>-->
 								<a href="{{ url('/home/step3') }}" class="btn">Back</a>
-								{!! Form::button('Continue', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
+								{!! Form::button('Continue', ['type' => 'button', 'class' => 'btn btn-primary', 'onClick' => 'fourthSteps();']) !!}
 							</div>
 						</div>
 					{!! Form::close() !!}
@@ -62,3 +62,33 @@
         </div>
     </div>
 @endsection
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+	function fourthSteps(){
+		var valid;	
+		valid = validateForm();
+		if(valid) {
+			$('form#addStep4').submit();
+		}
+	}
+	
+	function validateForm(){
+		var valid 				= true;	
+		var health_care_planning 	= $('#health_care_planning').val();
+		
+		var inputVal = new Array(health_care_planning);
+		
+		if(inputVal[0] == ""){
+			$("button[data-id='health_care_planning']").css('border', '1px solid #A94442');
+			$("button[data-id='health_care_planning']").parent().css('color', '#A94442');
+			valid = false;
+		}else{
+			$("button[data-id='health_care_planning']").css('border', '1px solid green');
+			$("button[data-id='health_care_planning']").parent().css('color', 'green');
+		}
+		
+		return valid;
+	}
+</script>

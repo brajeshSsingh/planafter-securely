@@ -18,7 +18,7 @@
                         <p>What best describes your reason for utilizing our platform to organize your life documents?</p>
                     </div>  
 					
-					{!! Form::open(['url' => '/home/addStep2', 'enctype' => 'multipart/form-data', 'class' => 'style-form', 'role' => 'form', 'method' => 'POST'] ) !!}
+					{!! Form::open(['url' => '/home/addStep2', 'enctype' => 'multipart/form-data', 'class' => 'style-form', 'role' => 'form', 'method' => 'POST', 'id' => 'addStep2'] ) !!}
 					
 						{{ csrf_field() }}
 						
@@ -60,7 +60,7 @@
 								<!--<button class="btn" type="button">Back</button>
 								<!--<button class="btn" type="button">Continue</button>-->
 								<a href="{{ url('/') }}" class="btn">Back</a>
-								{!! Form::button('Continue', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
+								{!! Form::button('Continue', ['type' => 'button', 'class' => 'btn btn-primary', 'onClick' => 'secondSteps();']) !!}
 							</div>
 						</div>
 					{!! Form::close() !!}
@@ -69,3 +69,33 @@
         </div>
     </div>
 @endsection
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+	function secondSteps(){
+		var valid;	
+		valid = validateForm();
+		if(valid) {
+			$('form#addStep2').submit();
+		}
+	}
+	
+	function validateForm(){
+		var valid 				= true;	
+		var answer 				= $('#answer').val();
+		
+		var inputVal = new Array(answer);
+		
+		if(inputVal[0] == ""){
+			$("button[data-id='answer']").css('border', '1px solid #A94442');
+			$("button[data-id='answer']").parent().css('color', '#A94442');
+			valid = false;
+		}else{
+			$("button[data-id='answer']").css('border', '1px solid green');
+			$("button[data-id='answer']").parent().css('color', 'green');
+		}
+		
+		return valid;
+	}
+</script>

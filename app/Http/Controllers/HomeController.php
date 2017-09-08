@@ -51,7 +51,6 @@ class HomeController extends Controller
 		$validator = Validator::make($request->all(),
 						[
 						'first_name' => 'required',
-						'middle_name' => 'required',
 						'last_name' => 'required',
 						'date_of_birth' => 'required',
 						'gender' => 'required',
@@ -64,7 +63,6 @@ class HomeController extends Controller
 				$user_id = session()->get('user_id');
 				$update = User::where('id', $user_id)->update([
                     'first_name' => $request->input('first_name'),
-					'middle_name' => $request->input('middle_name'),
 					'last_name' => $request->input('last_name'),
 					'date_of_birth' => date('Y-m-d' , strtotime($request->input('date_of_birth'))),
 					'gender' => $request->input('gender'),
@@ -72,7 +70,6 @@ class HomeController extends Controller
 			}else{
 				$user = User::create([
 						'first_name' => $request->input('first_name'),
-						'middle_name' => $request->input('middle_name'),
 						'last_name' => $request->input('last_name'),
 						'date_of_birth' => date('Y-m-d' , strtotime($request->input('date_of_birth'))),
 						'gender' => $request->input('gender'),
@@ -110,6 +107,14 @@ class HomeController extends Controller
 		if ($validator->fails()) {
 			return redirect('/home/step2')->withErrors($validator)->withInput();
 		}else{
+			if(empty(session()->get('user_id'))){
+				$user = User::create([
+					'first_name' => '',
+				]);
+				$user_id = session()->put('user_id', $user->id);
+			}else{
+				$user_id = session()->get('user_id');
+			}
 			
 			if(!empty(session()->get('user_detail_id'))){ 
 				$user_id = session()->get('user_detail_id');
@@ -117,7 +122,7 @@ class HomeController extends Controller
                     'answer' => $request->input('answer'),
                 ]);
 			}else{
-				$user_id = session()->get('user_id');
+				
 				$user = UserDetail::create([
 						'user_id' => $user_id,
 						'answer' => $request->input('answer'),
@@ -153,6 +158,14 @@ class HomeController extends Controller
 		if ($validator->fails()) {
 			return redirect('/home/step3')->withErrors($validator)->withInput();
 		}else{
+			if(empty(session()->get('user_id'))){
+				$user = User::create([
+					'first_name' => '',
+				]);
+				$user_id = session()->put('user_id', $user->id);
+			}else{
+				$user_id = session()->get('user_id');
+			}
 			$insurance_planning = implode(',', $request->input('insurance_planning'));
 			if(!empty(session()->get('user_detail_id'))){ 
 				$user_id = session()->get('user_detail_id');
@@ -160,7 +173,7 @@ class HomeController extends Controller
                     'insurance_planning' => $insurance_planning,
                 ]);
 			}else{
-				$user_id = session()->get('user_id');
+				
 				$user = UserDetail::create([
 						'user_id' => $user_id,
 						'insurance_planning' => $insurance_planning,
@@ -188,6 +201,7 @@ class HomeController extends Controller
 	
 	public function addStep4(Request $request)
     {
+		
 		$validator = Validator::make($request->all(),
 						[
 						'health_care_planning' => 'required',
@@ -195,6 +209,14 @@ class HomeController extends Controller
 		if ($validator->fails()) {
 			return redirect('/home/step4')->withErrors($validator)->withInput();
 		}else{
+			if(empty(session()->get('user_id'))){
+				$user = User::create([
+					'first_name' => '',
+				]);
+				$user_id = session()->put('user_id', $user->id);
+			}else{
+				$user_id = session()->get('user_id');
+			}
 			$health_care_planning = implode(',', $request->input('health_care_planning'));
 			if(!empty(session()->get('user_detail_id'))){ 
 				$user_id = session()->get('user_detail_id');
@@ -202,7 +224,7 @@ class HomeController extends Controller
                     'health_care_planning' => $health_care_planning,
                 ]);
 			}else{
-				$user_id = session()->get('user_id');
+				
 				$user = UserDetail::create([
 						'user_id' => $user_id,
 						'health_care_planning' => $health_care_planning,
@@ -238,6 +260,14 @@ class HomeController extends Controller
 		if ($validator->fails()) {
 			return redirect('/home/step5')->withErrors($validator)->withInput();
 		}else{
+			if(empty(session()->get('user_id'))){
+				$user = User::create([
+					'first_name' => '',
+				]);
+				$user_id = session()->put('user_id', $user->id);
+			}else{
+				$user_id = session()->get('user_id');
+			}
 			$financial_planning = implode(',', $request->input('financial_planning'));
 			if(!empty(session()->get('user_detail_id'))){ 
 				$user_id = session()->get('user_detail_id');
@@ -245,7 +275,7 @@ class HomeController extends Controller
                     'financial_planning' => $financial_planning,
                 ]);
 			}else{
-				$user_id = session()->get('user_id');
+				
 				$user = UserDetail::create([
 						'user_id' => $user_id,
 						'financial_planning' => $financial_planning,
@@ -281,6 +311,14 @@ class HomeController extends Controller
 		if ($validator->fails()) {
 			return redirect('/home/step6')->withErrors($validator)->withInput();
 		}else{
+			if(empty(session()->get('user_id'))){
+				$user = User::create([
+					'first_name' => '',
+				]);
+				$user_id = session()->put('user_id', $user->id);
+			}else{
+				$user_id = session()->get('user_id');
+			}
 			$legal_planning = implode(',', $request->input('legal_planning'));
 			if(!empty(session()->get('user_detail_id'))){ 
 				$user_id = session()->get('user_detail_id');
@@ -288,7 +326,7 @@ class HomeController extends Controller
                     'legal_planning' => $legal_planning,
                 ]);
 			}else{
-				$user_id = session()->get('user_id');
+				
 				$user = UserDetail::create([
 						'user_id' => $user_id,
 						'legal_planning' => $legal_planning,
@@ -324,6 +362,14 @@ class HomeController extends Controller
 		if ($validator->fails()) {
 			return redirect('/home/step7')->withErrors($validator)->withInput();
 		}else{
+			if(empty(session()->get('user_id'))){
+				$user = User::create([
+					'first_name' => '',
+				]);
+				$user_id = session()->put('user_id', $user->id);
+			}else{
+				$user_id = session()->get('user_id');
+			}
 			$future_planning = implode(',', $request->input('future_planning'));
 			if(!empty(session()->get('user_detail_id'))){ 
 				$user_id = session()->get('user_detail_id');
@@ -331,7 +377,7 @@ class HomeController extends Controller
                     'future_planning' => $future_planning,
                 ]);
 			}else{
-				$user_id = session()->get('user_id');
+				
 				$user = UserDetail::create([
 						'user_id' => $user_id,
 						'future_planning' => $future_planning,
@@ -367,14 +413,21 @@ class HomeController extends Controller
 		if ($validator->fails()) {
 			return redirect('/home/step8')->withErrors($validator)->withInput();
 		}else{
-			
+			if(empty(session()->get('user_id'))){
+				$user = User::create([
+					'first_name' => '',
+				]);
+				$user_id = session()->put('user_id', $user->id);
+			}else{
+				$user_id = session()->get('user_id');
+			}
 			if(!empty(session()->get('user_detail_id'))){ 
 				$user_id = session()->get('user_detail_id');
 				$update = UserDetail::where('id', $user_id)->update([
                     'funeral_wishes' => $request->input('funeral_wishes'),
                 ]);
 			}else{
-				$user_id = session()->get('user_id');
+				
 				$user = UserDetail::create([
 						'user_id' => $user_id,
 						'funeral_wishes' => $request->input('funeral_wishes'),
@@ -410,14 +463,21 @@ class HomeController extends Controller
 		if ($validator->fails()) {
 			return redirect('/home/step9')->withErrors($validator)->withInput();
 		}else{
-			
+			if(empty(session()->get('user_id'))){
+				$user = User::create([
+					'first_name' => '',
+				]);
+				$user_id = session()->put('user_id', $user->id);
+			}else{
+				$user_id = session()->get('user_id');
+			}
 			if(!empty(session()->get('user_detail_id'))){ 
 				$user_id = session()->get('user_detail_id');
 				$update = UserDetail::where('id', $user_id)->update([
                     'life_partner' => $request->input('life_partner'),
                 ]);
 			}else{
-				$user_id = session()->get('user_id');
+				
 				$user = UserDetail::create([
 						'user_id' => $user_id,
 						'life_partner' => $request->input('life_partner'),
@@ -455,7 +515,14 @@ class HomeController extends Controller
 		if ($validator->fails()) {
 			return redirect('/home/step10')->withErrors($validator)->withInput();
 		}else{
-
+			if(empty(session()->get('user_id'))){
+				$user = User::create([
+					'first_name' => '',
+				]);
+				$user_id = session()->put('user_id', $user->id);
+			}else{
+				$user_id = session()->get('user_id');
+			}
 			if(!empty(session()->get('user_detail_id'))){ 
 				$user_id = session()->get('user_detail_id');
 				$update = UserDetail::where('id', $user_id)->update([
@@ -464,7 +531,7 @@ class HomeController extends Controller
 					'children_years_old2' => $request->input('children_years_old2'),
                 ]);
 			}else{
-				$user_id = session()->get('user_id');
+				
 				$user = UserDetail::create([
 						'user_id' => $user_id,
 						'children' => $request->input('children'),
@@ -495,7 +562,6 @@ class HomeController extends Controller
 	public function addStep11(Request $request)
     {
 		
-		/*print_r($request->input('sharing_information'));die;*/
 		$validator = Validator::make($request->all(),
 						[
 						'sharing_information' 	=> 'required',
@@ -534,7 +600,14 @@ class HomeController extends Controller
 		if($validator->fails()) {
 			return redirect('/home/step11')->withErrors($validator)->withInput();
 		}else{
-			
+			if(empty(session()->get('user_id'))){
+				$user = User::create([
+					'first_name' => '',
+				]);
+				$user_id = session()->put('user_id', $user->id);
+			}else{
+				$user_id = session()->get('user_id');
+			}
 			$sharing_information 			= $request->input('sharing_information');
 			
 			if($request->input('sharing_information') == 'spouse'){
@@ -578,7 +651,7 @@ class HomeController extends Controller
 					'personal' 					=> implode(',', $personal),
                 ]);
 			}else{
-				$user_id = session()->get('user_id');
+				
 				$user = UserDetail::create([
 						'user_id' 					=> $user_id,
 						'sharing_information' 		=> $sharing_information,
@@ -628,24 +701,32 @@ class HomeController extends Controller
 		if ($validator->fails()) {
 			return redirect('/home/step12')->withErrors($validator)->withInput();
 		}else{
+			if(empty(session()->get('user_id'))){
+				$userId = User::create([
+					'first_name' => '',
+				]);
+				$user_id = session()->put('user_id', $userId->id);
+			}else{
+				$user_id = session()->get('user_id');
+			}
 			
 			if(!empty(session()->get('user_detail_id'))){ 
 				$user_id = session()->get('user_detail_id');
 				$update = UserDetail::where('id', $user_id)->update([
-                    'email_address' => $request->input('email_address'),
+                    'email_address' => trim($request->input('email_address')),
 					'personal_message' => $request->input('personal_message'),
                 ]);
 			}else{
-				$user_id = session()->get('user_id');
 				$user = UserDetail::create([
 						'user_id' => $user_id,
-						'email_address' => $request->input('email_address'),
+						'email_address' => trim($request->input('email_address')),
 						'personal_message' => $request->input('personal_message'),
 					]);
 				session()->put('user_detail_id', $user->id);
 			}
 			$request->session()->forget('user_id');
 			$request->session()->forget('user_detail_id');
+			
 			//$request->session()->flush('user_id');
 			//$request->session()->flush('user_detail_id');
 			return redirect('/home/step13');
@@ -656,9 +737,6 @@ class HomeController extends Controller
     {
 		
 		$userDetail			= array();
-		/*$user 				= Auth::user();
-		$userID 			= $user->id;
-		$userDetail        	= User::where('id', '=', $userID)->first();*/
 		if(Auth::user()){
 			return redirect('/user/dashboard');
 		}else{ 

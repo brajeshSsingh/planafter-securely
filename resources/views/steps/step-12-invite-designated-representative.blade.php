@@ -18,7 +18,7 @@
                         <p>Please add the email address of designated representative and invite.</p>
                     </div>
 					
-					{!! Form::open(['url' => '/home/addStep12', 'enctype' => 'multipart/form-data', 'class' => 'style-form', 'role' => 'form', 'method' => 'POST'] ) !!}
+					{!! Form::open(['url' => '/home/addStep12', 'enctype' => 'multipart/form-data', 'class' => 'style-form', 'role' => 'form', 'method' => 'POST', 'id' => 'addStep12'] ) !!}
 					
 						{{ csrf_field() }}
 						
@@ -28,7 +28,7 @@
 									<div class="form-group{{ $errors->has('email_address') ? ' has-error' : '' }}">
 										<label>Howard's email address</label>
 										<!--<input type="text" class="form-control">-->
-										{!! Form::text('email_address', @$userDetail->email_address , ['class' => 'form-control', 'id' => 'email_address ', 'title' => 'Howard`s email address']) !!}
+										{!! Form::text('email_address', @$userDetail->email_address , ['class' => 'form-control', 'id' => 'email_address', 'title' => 'Howard`s email address']) !!}
 									</div>
 								</div>
 							</div>
@@ -45,7 +45,7 @@
 								<!--<button class="btn" type="button">Back</button>
 								<button class="btn btn-primary" type="button">Invite and Finish</button>-->
 								<a href="{{ url('/home/step11') }}" class="btn">Back</a>
-								{!! Form::button('Invite and Finish', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
+								{!! Form::button('Invite and Finish', ['type' => 'button', 'class' => 'btn btn-primary', 'onClick' => 'twelveSteps();']) !!}
 							</div>
 						</div>
 					{!! Form::close() !!}
@@ -54,3 +54,67 @@
         </div>
     </div>
 @endsection
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+	function twelveSteps(){
+		var valid;	
+		valid = validateForm();
+		if(valid) {
+			$('form#addStep12').submit();
+		}
+	}
+	
+	
+	$(document).ready(function(){
+		
+		var regex 						= /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+		
+		$('#email_address').on('keyup',function(){
+			
+			if (!regex.test($(this).val())) {
+				$('#email_address').css('border', '1px solid #A94442');
+				$('#email_address').parent().css('color', '#A94442');
+			}else{
+				$('#email_address').css('border', '1px solid green');
+				$('#email_address').parent().css('color', 'green');
+			}
+		});
+	});
+	
+	
+	function validateForm(){
+		var valid 						= true;	
+		var email_value 				= $('#email_address').val();
+		var email_address 				= email_value.trim();
+		var regex 						= /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+  
+		var personal_message 			= $('#personal_message').val();
+		
+		var inputVal = new Array(email_address, personal_message);
+		
+		if(inputVal[0] == "" || inputVal[0] == undefined){
+			$("#email_address").css('border', '1px solid #A94442');
+			$("#email_address").parent().css('color', '#A94442');
+			valid = false;
+		}else if(!regex.test(inputVal[0])){
+			$("#email_address").css('border', '1px solid #A94442');
+			$("#email_address").parent().css('color', '#A94442');
+			valid = false;
+		}else{
+			$("#email_address").css('border', '1px solid green');
+			$("#email_address").parent().css('color', 'green');
+		}
+		if(inputVal[1] == ""){
+			$("#personal_message").css('border', '1px solid #A94442');
+			$("#personal_message").parent().css('color', '#A94442');
+			valid = false;
+		}else{
+			$("#personal_message").css('border', '1px solid green');
+			$("#personal_message").parent().css('color', 'green');
+		}
+		
+		return valid;
+	}
+</script>
